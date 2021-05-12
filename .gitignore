@@ -1,5 +1,7 @@
 # ignore dirs
 **/build
+**/.vscode
 
 # ignore files
 *.cpp
+*test*.py
