@@ -2,9 +2,8 @@
 import numpy as np
 import pandas as pd
 import time
-from functools import wraps
 import tm
-from copy import deepcopy
+from functools import wraps
 
 
 def time_decrator(func):

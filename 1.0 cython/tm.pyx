@@ -46,6 +46,7 @@ cdef void target_mean_v3_impl(double[:] result, double[:] y, double[:] x, const 
     for i in range(nrow):
         result[i] = (value_dict[x[i]] - y[i])/(count_dict[x[i]]-1)
 
+
 cpdef target_mean_v4(data, y_name, x_name):
     cdef long nrow = data.shape[0]
     cdef np.ndarray[double] result = np.asfortranarray(np.zeros(nrow), dtype=np.float64)
@@ -55,12 +56,12 @@ cpdef target_mean_v4(data, y_name, x_name):
     return result
 
 cdef void target_mean_v4_impl(double[:] result, double[:] y, double[:] x, const long nrow):
+    # 用{}替换dict(),减少调用函数导致的消耗
     cdef dict value_dict = {}
     cdef dict count_dict = {}
-
     cdef long i
     for i in range(nrow):
-        # 用默认的dict替代dict.keys()，转为生成器，减少内存消耗
+        # 用默认的dict替代dict.keys()，因为dict.keys()会消耗内存并生成list，继而使得in操作时间复杂度为O(n),直接key in dict 时间复杂度是O(1)
         if x[i] not in value_dict:
             value_dict[x[i]] = y[i]
             count_dict[x[i]] = 1
